@@ -1,0 +1,3 @@
+/*
+	This file contains methods to make the web app dynamic
+*/

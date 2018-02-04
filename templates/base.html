@@ -1,0 +1,43 @@
+<!--BASE TEMPLATE: Jinja2-->
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block title %}
+        <title></title>
+        {% endblock %}
+        <!--Imports for jQuery, bootstrap, font awesome-->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/custom.css') }}">
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <!--BEGIN HEADER NAVIGATION AREA-->
+        <nav class="navbar navbar-default navbar-fixed-top" id="banner" role="navigation" style="top: 0px;">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" rel="home" href="/" style="color: #428aca;"><img src="https://raw.githubusercontent.com/vadymmarkov/Fakery/master/Images/logo.png" width="150" height="50"></a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse navbar-ex1-collapse" aria-expanded="false" style="height: 1px;">
+                    <ul class="nav navbar-nav navbar-right" id="navbarul"></ul>
+                </div>
+            </div>
+        </nav>
+        <!--END HEADER NAVIGATION AREA-->
+        <!--BEGIN MAIN CONTENT-->
+        <div class="container-fluid" id="parentContainer">
+            {% block content %}{% endblock %}
+        </div>
+        <!--BEGIN MAIN CONTENT-->
+        <script src="{{ url_for('static',filename='js/handler.js') }}"></script>
+    </body>
+</html>
