@@ -10,7 +10,7 @@
     ```$ pip install -r requirements.txt```
 * Now run the app.py script
   ```(env)$ python app.py```
-* Open http://localhost:5000 on your browser
+* Open http://localhost:8080 on your browser
 * ```deactivate``` virtual environment when done
 
 #### Directory structure
