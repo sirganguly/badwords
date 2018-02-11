@@ -3,8 +3,13 @@
 {% block title %}
 <title>Dashboard | BadWordGen 0.1</title>
 {% endblock %}
-
-
+ 
 {% block content %}
-<p>hello world</p>
+<form method="GET" action="/randHindi">
+      <input type="submit" value="Hindi" id="randomButton"> {{ hindi }}
+</form>
+<form method="GET" action="/randEnglish">
+      <input type="submit" value="English" id="randomButton"> {{ english }}
+</form>
+
 {% endblock %}
