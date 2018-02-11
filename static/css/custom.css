@@ -6,7 +6,7 @@
 	padding: 100px 15px 0px 15px;
 }
 
-#randButton{
+#randomButton{
 cursor:pointer; 
 padding:5px 25px; 
 background:#35b128; 
@@ -21,7 +21,7 @@ color:#f3f3f3;
 font-size:1.1em;
 }
 
-#randButton:hover, randButton:focus{
+#randomButton:hover, #randomButton:focus{
 background-color :#399630; 
 -webkit-box-shadow: 0 0 1px rgba(0,0,0, .75);
 -moz-box-shadow: 0 0 1px rgba(0,0,0, .75);
