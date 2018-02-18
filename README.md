@@ -34,3 +34,6 @@
 - Explain flask app flow
 - List of simple technologies to learn to wrap this app up
 - [Flask reference](http://flask.pocoo.org/docs/0.12/)
+
+#### Bot handle and heroku details
+Bot's telegram handle is gaalibot and is currently hosted on heroku here: https://thegalibot.herokuapp.com/
