@@ -97,7 +97,7 @@ def give(msg):
         bot.sendMessage(chat_id = msg.chat.id, text = getEnglishWord())
         return None
     #get Hindi gaali
-    elif text == "/gaalihindi" or text == "/gaalieng@Gaalibot":
+    elif text == "/gaalihindi" or text == "/gaalihindi@Gaalibot":
         bot.sendMessage(chat_id = msg.chat.id, text = getHindiWord())
         return None
     #static actions
@@ -105,7 +105,7 @@ def give(msg):
         bot.sendMessage(chat_id = msg.chat.id, text = "In sweet memory of @thegali. If you know where he is, please drag his ass back to telegram.")
         return None
     elif text == "/start":
-    	bot.sendMessage(chat_id = msg.chat.id, text = "Blame @BiharEAzam, this is his idea.")
+    	bot.sendMessage(chat_id = msg.chat.id, text = "Blame @BiharEAzam, this is his idea. Use '/gaalieng' For English and '/gaalihindi' for Hindi.")
 
 
 if __name__ == '__main__':
