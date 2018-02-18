@@ -36,4 +36,4 @@
 - [Flask reference](http://flask.pocoo.org/docs/0.12/)
 
 #### Bot handle and heroku details
-Bot's telegram handle is gaalibot and is currently hosted on heroku here: https://thegalibot.herokuapp.com/
+Bot's telegram handle is [@gaalibot](https://t.me/gaalibot/) and is currently hosted on heroku here: https://thegalibot.herokuapp.com/

@@ -33,6 +33,7 @@ from telegram.utils.helpers import escape_markdown
 app = Flask(__name__)
 app.config.from_object('_config')
 
+#init telegram bot
 global bot
 bot = telegram.Bot(token = "497175063:AAGyWKEuQ39vIEl7E79wLjDVkfcFa5tnyAk")
 #incase you are wondering, the above secret has since been revoked and was commited by mistake. Use your own.
@@ -54,10 +55,13 @@ def index():
 @app.route('/gaali', methods=['POST', 'GET'])
 def gaali():
 	if request.method == 'POST':
+		#store the incoming telegram json object
 		update = telegram.Update.de_json(request.get_json(force=True), bot)
+		#ask for a correct token
 		if not update:
 			return("Show me your token")
 		elif update.message:
+			#call function to take the appropriate action
 			give(update.message)
 		return ("OK!")
 	else:
@@ -83,15 +87,20 @@ def randEnglish():
 		return render_template('index.html', error = error)
 
 
+'''
+	The following actions(fuction calls) will have to be updated once we use start using postgres or other databses.
+'''
 def give(msg):
+	#store the text element from the passed in object
     text = msg.text
-
     if text == "/gaalieng" or text == "/gaalieng@Gaalibot":
         bot.sendMessage(chat_id = msg.chat.id, text = getEnglishWord())
         return None
+    #get Hindi gaali
     elif text == "/gaalihindi" or text == "/gaalieng@Gaalibot":
         bot.sendMessage(chat_id = msg.chat.id, text = getHindiWord())
         return None
+    #static actions
     elif text == "/help" or text == "/help@gaalibot":
         bot.sendMessage(chat_id = msg.chat.id, text = "In sweet memory of @thegali. If you know where he is, please drag his ass back to telegram.")
         return None
