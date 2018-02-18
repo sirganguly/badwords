@@ -109,6 +109,22 @@ def randEnglish():
 
 #-------------------------------------- Flask Ends --------------------------------------#
 
+def give(msg):
+    text = msg.text
+
+    if text == "/gaalieng" or text == "/gaalieng@Gaalibot":
+    	english = randomGenerator.FetchBadWord(cur)
+    	bot.sendMessage(chat_id = msg.chat.id, text = english.english())
+    	return None
+    elif text == "/gaalihindi" or text == "/gaalihindi@Gaalibot":
+    	hindi = randomGenerator.FetchBadWord(cur)
+    	bot.sendMessage(chat_id = msg.chat.id, text = hindi.hindi())
+    	return None
+    elif text == "/help" or text == "/help@gaalibot":
+        bot.sendMessage(chat_id = msg.chat.id, text = "In sweet memory of @thegali. If you know where he is, please drag his ass back to telegram.")
+        return None
+    elif text == "/start":
+    	bot.sendMessage(chat_id = msg.chat.id, text = "Blame @BiharEAzam, this is his idea.")
 
 
 if __name__ == '__main__':
