@@ -35,6 +35,7 @@ app.config.from_object('_config')
 
 global bot
 bot = telegram.Bot(token = "497175063:AAGyWKEuQ39vIEl7E79wLjDVkfcFa5tnyAk")
+#incase you are wondering, the above secret has since been revoked and was commited by mistake. Use your own.
 botName = "In memory of @thegali" #Without @
 
 #UNCOMMENT IN PRODUCTION SERVER
