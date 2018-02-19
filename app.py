@@ -10,43 +10,67 @@ This file will contain:
 #####-IMPORTS-#####
 ###################
 
-from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory, session, jsonify, session, send_from_directory
-from werkzeug import secure_filename
-import os
-import random
-from randomGenerator import getHindiWord, getEnglishWord
-from datetime import datetime
+from flask import Flask, render_template, request
+from urllib import parse as urlparse
+import psycopg2 as postgres
+import randomGenerator
 import telegram
-from telegram import InlineQueryResultArticle, ParseMode, InputTextMessageContent
-from telegram.utils.helpers import escape_markdown
-
-###################
-#####-SETUP-#######
-###################
-
-#UNCOMMENT IN PRODUCTION SERVER
-#from flask_heroku import Heroku
+import os
 
 
+#Flask configuration
 # create the application object
 app = Flask(__name__)
 app.config.from_object('_config')
 
-#init telegram bot
+
+#Telegram bot configuration
 global bot
-bot = telegram.Bot(token = "497175063:AAGyWKEuQ39vIEl7E79wLjDVkfcFa5tnyAk")
-#incase you are wondering, the above secret has since been revoked and was commited by mistake. Use your own.
-botName = "In memory of @thegali" #Without @
+bot = telegram.Bot(token = "YOUR TELEGRAM TOKEN GOES HERE")
+botName = "In memory of @thegali"
 
-#UNCOMMENT IN PRODUCTION SERVER
-#heroku = Heroku(app)
 
-###################
-#####-ROUTING-#####
-###################
+#Postgresql configuration
+'''
+	Run the following command after having logged into heroku on your terminal to copy the current local database to heroku, that is assuming that you have a populated database.
 
-db = SQLAlchemy(app)
+	Add the addon
+	heroku addons:create heroku-postgresql:hobby-dev
+
+	Push local database to heroku
+	heroku pg:push your_database_name DATABASE_URL --app your_appname
+
+
+	For more features and settings visit: https://devcenter.heroku.com/articles/heroku-postgresql
+
+'''
+
+'''
+
+	Following are to be commented during production push.
+
+	conn = postgres.connect(dbname = "gaali", user = "postgres", host = "localhost")
+
+'''
+
+'''
+	Current database contains two tables: Hindi and English
+'''
+
+urlparse.uses_netloc.append("postgres")
+url = urlparse.urlparse(os.environ["DATABASE_URL"])
+
+conn = postgres.connect(
+    database=url.path[1:],
+    user=url.username,
+    password=url.password,
+    host=url.hostname,
+    port=url.port
+)
+
+cur = conn.cursor()
+
+#--------------------------------------Flask Starts--------------------------------------#
 
 @app.route('/')
 def index():
@@ -55,13 +79,10 @@ def index():
 @app.route('/gaali', methods=['POST', 'GET'])
 def gaali():
 	if request.method == 'POST':
-		#store the incoming telegram json object
 		update = telegram.Update.de_json(request.get_json(force=True), bot)
-		#ask for a correct token
 		if not update:
 			return("Show me your token")
 		elif update.message:
-			#call function to take the appropriate action
 			give(update.message)
 		return ("OK!")
 	else:
@@ -71,8 +92,8 @@ def gaali():
 @app.route('/randHindi', methods=['GET'])
 def randHindi():
 	if request.method == 'GET':
-		hindi = getHindiWord()
-		return render_template('index.html', hindi = hindi)
+		hindi = randomGenerator.FetchBadWord(cur)
+		return render_template('index.html', hindi = hindi.hindi())
 	else:
 		error = "Invalid"
 		return render_template('index.html', error = error)
@@ -80,26 +101,25 @@ def randHindi():
 @app.route('/randEnglish', methods=['GET'])
 def randEnglish():
 	if request.method == 'GET':
-		english = getEnglishWord()
-		return render_template('index.html', english = english)
+		english = randomGenerator.FetchBadWord(cur)
+		return render_template('index.html', english = english.english())
 	else:
 		error = "Invalid"
 		return render_template('index.html', error = error)
 
+#-------------------------------------- Flask Ends --------------------------------------#
 
-'''
-	The following actions(fuction calls) will have to be updated once we use start using postgres or other databses.
-'''
 def give(msg):
-	#store the text element from the passed in object
     text = msg.text
+
     if text == "/gaalieng" or text == "/gaalieng@Gaalibot":
-        bot.sendMessage(chat_id = msg.chat.id, text = getEnglishWord())
-        return None
-    #get Hindi gaali
+    	english = randomGenerator.FetchBadWord(cur)
+    	bot.sendMessage(chat_id = msg.chat.id, text = english.english())
+    	return None
     elif text == "/gaalihindi" or text == "/gaalihindi@Gaalibot":
-        bot.sendMessage(chat_id = msg.chat.id, text = getHindiWord())
-        return None
+    	hindi = randomGenerator.FetchBadWord(cur)
+    	bot.sendMessage(chat_id = msg.chat.id, text = hindi.hindi())
+    	return None
     #static actions
     elif text == "/help" or text == "/help@gaalibot":
         bot.sendMessage(chat_id = msg.chat.id, text = "In sweet memory of @thegali. If you know where he is, please drag his ass back to telegram.")
